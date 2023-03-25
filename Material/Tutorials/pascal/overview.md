@@ -83,10 +83,10 @@ var c1 : char;
 
 ## input & output
 
-* `Write(1, 2, 'hello')`
-* `WriteLn(x, y)`
-* `Read(x)`
-* `ReadLn(y)`
+* `Write(1, 2, 'hello');`
+* `WriteLn(x, y);`
+* `Read(x);`
+* `ReadLn(y);`
 
 ---
 
