@@ -370,7 +370,6 @@ end.
 
 ## Arrays in Pascal
 
-
 > `array` **index-type** `of` **element-type**
 
 for example:
