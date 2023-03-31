@@ -11,15 +11,20 @@
 * Proposed in 1983, first stable implementation in 1997.
 * A (relatively) modern dialect of ML, which was invented in 1973.
 
+* In 1970s, Robin Milner and group working at Edinburgh University on "LCF" (a theorem proover)
+* ML invented as an embedded scripting language of LCF
+* Many ad-hoc independent implementations, many new ideas
+* 1997: first real standard
+
 <!--vert-->
 
 ### Why SML?
 
-* Exemplar of functional programming - i.e.:
-  * Forget about variables (kind of) and loops.
-  * Functions are first-class citizens.
-  * Data is immutable (again, kind of)
-
+* Exemplar of functional programming:
+  * Forget about variables (kind of).
+  * Data is immutable (again, kind of).
+  * Functions are first-class values.
+  * Higher lever functions
 
 * Exemplar of **type safe** language
   * Strongly typed: no type error can go undetected
@@ -31,6 +36,7 @@
 
 ### Use cases of SML
 
+Main applications:
 * Research
 * Teaching
 * Few industrial applications
@@ -54,12 +60,12 @@ Two main features emphasized by the language creator:
   * Flexibility of typeless
   * Safety of typed
 
----
-
 ## Executing SML code
 We will mostly execute in REPL mode.
 * First prompt (-) and secondary prompt (=)
 * Expressions followed by a semicolon yield a response
+
+### Running
 
 ```text
 Standard ML of New Jersey v110.79 [built: Sat Oct 26 12:27:04 2019]
@@ -70,8 +76,9 @@ val it = 10 : int
 <!--vert-->
 
 ### Executing SML code
-
 For example:
+* ML is usually used in a REPL
+* Expressions followed by a semicolon yield a response
 
 ```sml
 2 + 2;
@@ -80,13 +87,18 @@ For example:
 
 ---
 
-## Values
+## Naming Values
 
 We use the `val` keyword to name a new value:
 
 ```sml
 val seconds : int = 60;
 
+<!--vert-->
+
+Using named values in expressions
+
+```sml
 val minutes = 60;
 
 val hours = 24;
@@ -101,7 +113,7 @@ Important note - these are **values**, not **variables**
 
 ### Values
 
-We use the `it` identifier in order the refer the last response:
+The identifier `it` refers to the last response:
 
 ```sml
 seconds * minutes * hours;
@@ -132,6 +144,7 @@ With identifiers we denote:
 <!--vert-->
 
 ### Identifiers
+
 Identifier congestion?
 
 * Scoping
@@ -236,7 +249,7 @@ Conventional precedence (parenthesis can be dropped without change of meaning)
 * Decimal point
   * `0.01`
   * `2.718281828`
-* "e" notation
+  * "e" notation
   * `7E~5`
   * `~1.2E12`
   * `~123.4E~2` is the same as `~1.234`
@@ -275,14 +288,14 @@ Escape sequences: `\n`, `\t`, `\"`, `\\`
 
 ### string operators
 
-Concatenation:
+Concatenation operator:
 
 ```sml
 "Standard" ^ " ML";
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-comparison of strings:
+Comparison of strings:
 
 ```sml
 "abc" < "cba";
@@ -321,7 +334,7 @@ Characters (values of type `char`) are distinguished from strings of length 1 by
 
 ### Char operration
 
-conversion between strings and chars
+Conversion between strings and chars
 
 ```sml
 str #"0";
@@ -330,7 +343,7 @@ String.sub ("hello", 0);
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-conversion between chars and ASCII
+Conversion between chars and ASCII
 
 ```sml
 ord #"0";
@@ -412,7 +425,7 @@ val a = (1.5, 6.8);
 
 ### lists
 
-lists are finite sequences of elements:
+Lists are finite sequences of elements:
 
 ```sml
 [3, 5, 9];
@@ -546,6 +559,7 @@ val sq = fn x:int => x*x;
 ---
 
 ### Returning a Function as Value
+>>>>>>> 909bf714... merge on ML intro
 
 * Functions can also be __returned__ from other functions
 
@@ -745,7 +759,7 @@ fn x => twice ident (x);
 * Functional - stateless. using expressions recursively to calculate the result
 * Example: Euclid's algorithm for the Greatest Common Divisor (GCD) of two natural numbers:
 
-$$gcd(m,n) = \begin{cases}n,m = 0&\\gcd(n mod m,m), m>0\end{cases}$$
+$$gcd (m,n) = \begin{cases}n,m = 0&\\gcd (n mod m,m), m>0\end{cases}$$
 
 <!--vert-->
 
@@ -754,7 +768,7 @@ $$gcd(m,n) = \begin{cases}n,m = 0&\\gcd(n mod m,m), m>0\end{cases}$$
 An imperative Python program:
 
 ```python
-def gcd(m: int, n: int) -> int:
+def gcd (m: int, n: int) -> int:
     while m != 0:
         n, m = m, n % m
     return n
