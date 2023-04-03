@@ -1,4 +1,3 @@
-theme: jekyll-theme-tactile
 plugins:
   - jekyll-relative-links
 relative_links:
@@ -7,3 +6,4 @@ relative_links:
 include:
   - README.md
   - NEW.md
+theme: jekyll-theme-tactile
