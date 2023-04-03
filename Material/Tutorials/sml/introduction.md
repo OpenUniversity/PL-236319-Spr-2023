@@ -481,14 +481,10 @@ fun sq (x: int) = x*x;
 
 <!--vert-->
 
-* The result of the function is the result of evaluating the **expression** of the function body with the actual parameter
-* `int->int` is the standard mathematical notation for a function type that takes an integer and returns an integer
-=======
 ### Functions
 
 * The result of the function is the result of evaluating the **expression** of the function body with the actual parameter.
 * `int->int` is the standard mathematical notation for a function type that takes an integer and returns an integer.
->>>>>>> refs/rewritten/merge
 
 ---
 
@@ -583,9 +579,7 @@ val sq = fn x:int => x*x;
     val inttwice = fn : (int -> int) -> (int -> int)
     ```
 
-<!--vert-->
-
-### returning functions
+### Returning a Function as Value
 
 For example:
 
