@@ -10,3 +10,6 @@
 	<h2><a href="./Material/Tutorials/sml/introduction.html">docs/Material/Tutorials/sml/introduction.html</a>
 	<h2><a href="../Material/Tutorials/sml/introduction.html">docs/Material/Tutorials/sml/introduction.html</a>
 </html>
+
+## SML
+* [Introduction](./Material/Tutorials/sml/introduction.md)
