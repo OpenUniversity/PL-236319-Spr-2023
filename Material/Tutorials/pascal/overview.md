@@ -368,8 +368,7 @@ end.
 
 ---
 
-## arrays in Pascal
-
+## Arrays in Pascal
 
 > `array` **index-type** `of` **element-type**
 

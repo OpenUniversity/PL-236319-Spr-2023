@@ -1,12 +1,33 @@
 # Standard ML
 
-## refs
+## references
 
 ---
 
+### pure functional programming
+
+Pure functional programming is achieved when:
+* All data is immutable
+* All functions are pure, which means:
+    1. They have no side-effects
+    1. They are completely deterministic
+
+Pure functional programming has its advantages, however it is not practical for most use cases.
+
+<!--vert-->
+
+### pure functional programming
+
+So far we treated SML as a pure functional programming language.
+
+Now is a good time to tell you that this is not entirely true...
+
+---
+
+
 ### ref cells
 
-use `ref` to create a single **mutable** cell
+In SML, we may use `ref` to create a **mutable** cell:
 
 ```sml
 val x = ref 4;
@@ -15,7 +36,9 @@ val x = ref 4;
 
 <!--vert-->
 
-`ref` is a constructor and as such is also a function
+### ref cells
+
+`ref` is a constructor and as such is also a function:
 
 ```sml
 ref;
@@ -24,7 +47,9 @@ ref;
 
 ---
 
-use `:=` to replace a cell's contents
+### ref cells
+
+We may use `:=` to replace a cell's contents:
 
 ```sml
 val x = ref 0;
@@ -33,7 +58,7 @@ x;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-note that `:=` returns `()`
+> Note that `:=` returns `()`
 
 ```sml
 val := = fn : 'a ref * 'a -> unit
@@ -41,7 +66,9 @@ val := = fn : 'a ref * 'a -> unit
 
 <!--vert-->
 
-use `!` to get the the cell's contents
+### ref cells
+
+We may use `!` to get the cell's content:
 
 ```sml
 val x = ref 8;
@@ -62,12 +89,18 @@ val ! = fn : 'a ref -> 'a
 ```sml
 fun swap x y =
     (x := !x + !y ; y := !x - !y ; x := !x - !y);
+
+val x = ref 1 and y = ref 2;
+swap x y;
+(!x, !y);
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
 
-an expression created by `;` evaluates to the value of the last expression
+### sequencing with `;`
+
+An expression created by `;` evaluates to the value of the last expression
 
 ```sml
 val x = ref 42;
@@ -77,21 +110,62 @@ val x = ref 42;
 
 ---
 
-### memoization
+### example - memoization
+
+Memoization is an optimization technique used to speed up computations by caching results.
+
+This is technique is applied to pure functions and relies on the fact that these are deterministic.
+
+<!--vert-->
+
+### example - memoization
+
+For each function `f` that receives an argument `x` we store in memory pairs of `x` and `f(x)` values.
+
+<!--vert-->
+
+### example - memoization
+
+When `f` is called with `x` we check if `f` was already called with `x` before. If so, we return the cached value, otherwise we compute `f(x)`, store it in memory and return it.
+
+<!--vert-->
+
+### example - memoization
+
+First let's define a type for our cache memory (memoizer):
 
 ```sml
 type (''a, 'b) memoizer = {max_size: int, memory: (''a * 'b) list ref};
+```
 
-fun memoizer_put (memo: (''a, 'b) memoizer) x y = 
-    #memory(memo) :=
-        (if length (!(#memory memo)) < #max_size memo
-        then !(#memory memo)
-        else tl (!(#memory memo)))
-        @ [(x, y)];
+<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
+
+<!--vert-->
+
+### example - memoization
+
+`memoizer_put` will let us store new values in the cache memory:
+
+```sml
+fun memoizer_put (memo: (''a, 'b) memoizer) x y =
+	let 
+      val state = #memory(memo)
+    in
+      state :=
+          (if length (!state) < #max_size memo then
+              !(state)
+          else
+              tl (!state))
+          @ [(x, y)]
+    end;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+
+### example - memoization
+
+`memoize` will be our memoization function, i.e. it will apply the memoization technique to a given function:
 
 ```sml
 fun memoize (memo: (''a, 'b) memoizer) f x =
@@ -100,13 +174,17 @@ fun memoize (memo: (''a, 'b) memoizer) f x =
     | NONE => (
         let val y = f x in
             memoizer_put memo x y;
-            y 
+            y
         end
     );
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+
+### example - memoization
+
+Now let's apply memoization to the Fibonacci function:
 
 ```sml
 local
@@ -125,7 +203,9 @@ end;
 
 <!--vert-->
 
-let's compare
+### example - memoization
+
+Let's compare:
 
 ```sml
 fib 43;

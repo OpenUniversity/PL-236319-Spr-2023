@@ -1,0 +1,3 @@
+print "===TEST START===\n";
+flatten (Br(0, Br(1, Nil, Nil), Br(2, Nil, Nil)));
+map (fn x => 2 * x) (Br(0, Br(1, Nil, Nil), Br(2, Nil, Nil)));

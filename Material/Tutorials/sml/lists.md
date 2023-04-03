@@ -1,10 +1,12 @@
 # Standard ML
 
-## lists
+## Lists
 
 ---
 
-a list is an __immutable__ finite sequence of elements
+### Lists
+
+Lists are __immutable__ finite sequences of elements
 
 ```sml
 [3, 5, 9]: int list
@@ -14,14 +16,16 @@ a list is an __immutable__ finite sequence of elements
 
 <!--vert-->
 
-order matters
+### Lists
+
+Order matters
 
 ```sml
 [1, 2, 3] <> [3, 2, 1];
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-and repetitions count
+And repetitions count
 
 ```sml
 [3, 3, 3] <> [3];
@@ -30,7 +34,9 @@ and repetitions count
 
 <!--vert-->
 
-elements may have any type
+### Lists
+
+Elements may have any type
 
 ```sml
 [(1,"One"),(2,"Two")] : (int*string) list
@@ -46,7 +52,9 @@ elements may have any type
 
 <!--vert-->
 
-the empty list has a polymorphic type
+### Lists
+
+The empty list has a polymorphic type
 
 ```sml
 []: 'a list
@@ -61,15 +69,17 @@ nil;
 
 ---
 
-### building a list
+### Building lists
 
-a list is either *empty* or *a head followed by a tail*
+A list is either *empty* or *a head followed by a tail*
 
 `[1,2,3]` ➭ head: `1` tail: `[2,3]`
 
 <!--vert-->
 
-use the infix operator `::` (aka `cons`) to build a list
+### building lists
+
+Use the infix operator `::` (aka `cons`) to build a list
 
 ```sml
 1 :: [2, 3];
@@ -79,6 +89,8 @@ use the infix operator `::` (aka `cons`) to build a list
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+
+### building lists
 
 `::` associates to the right, so
 
@@ -90,20 +102,25 @@ use the infix operator `::` (aka `cons`) to build a list
 
 <!--vert-->
 
+
+### building lists
+
 `::` is a *constructor* so it can be used in patterns
 
 ```sml
 fun replace_head (_::t) x = x :: t
-  | replace_head [] _ = []
-;
+  | replace_head [] _ = [];
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 ---
 
-### builtin fundamental functions
+## builtin fundamental functions
 
 <!--vert-->
+
+
+### builtin fundamental functions
 
 `null` - tests whether a list is empty
 
@@ -115,6 +132,8 @@ fun null [] = true
 
 <!--vert-->
 
+### builtin fundamental functions
+
 `hd` - evaluates to the head of a non-empty list
 
 ```sml
@@ -123,6 +142,9 @@ fun hd (x::_) = x;
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+
+
+### builtin fundamental functions
 
 ```sml
 hd[ [ [1,2], [3] ], [ [4] ] ];
@@ -141,6 +163,8 @@ hd it;
 
 <!--vert-->
 
+### builtin fundamental functions
+
 `tl` - evaluates to the tail of a non-empty list
 
 ```sml
@@ -149,6 +173,9 @@ fun tl (_::xs) = xs;
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+
+
+### builtin fundamental functions
 
 ```sml
 tl ["how", "are", "you?"];
@@ -184,6 +211,8 @@ range (2, 5);
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+
+### example - building a list of integers
 
 ```sml
 infix --;
@@ -242,9 +271,11 @@ drop (0,       [6,5,4])
 
 ---
 
-### tail recursion
+## tail recursion
 
 <!--vert-->
+
+### recursion types
 
 normal recursion
 
@@ -272,7 +303,7 @@ fun length []      = 0
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-use an **accumulator** to make it iterative
+Use an **accumulator** to make it iterative
 
 ```sml
 local
@@ -299,12 +330,12 @@ fun []      @ ys = ys
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-* is it tail recursive?
-* why can't it be used in patterns?
+* Is it tail recursive?
+* Why can't it be used in patterns?
 
 ---
 
-### side note - `orelse` and `andalso`
+## side note - `orelse` and `andalso`
 
 they are short-circuiting boolean operators
 
@@ -316,8 +347,10 @@ B1 orelse  B2 = if B1 then true else B2;
 
 <!--vert-->
 
+### `orelse` and `andalso`
+
 ```sml
-fun even n = (n mod 2 = 0); 
+fun even n = (n mod 2 = 0);
 
 fun powoftwo n =
   (n=1) orelse
@@ -325,7 +358,7 @@ fun powoftwo n =
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-is `powoftwo` tail-recursive?
+Is `powoftwo` tail-recursive?
 
 ---
 
@@ -346,9 +379,9 @@ sqlist [1,2,3];
 
 <!--vert-->
 
-transposing a matrix using `map`
+### builtin function `map`
 
-![transp gif](../imgs/matrix_transpose.gif)
+Transposing a matrix using `map`:
 
 ```sml
 fun transp ([]::_) = []
@@ -392,6 +425,8 @@ val a = [(5,3), (2,1), (7,0)]: polynomial;
 
 <!--vert-->
 
+### polynomial example
+
 taking the derivative of a polynomial
 
 ```sml
@@ -418,11 +453,11 @@ fun find f [] = NONE
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-bound as `List.find`
+Bound as `List.find`
 
 ---
 
-### `foldl` and `foldr`
+## `foldl` and `foldr`
 
 <!--vert-->
 
@@ -452,7 +487,7 @@ calculates `$[x_1, x_2, … ,x_n] \rightarrow f(x1, … ,f(xn-1, f(xn,init)))$`
 
 ### using `foldl` and `foldr`
 
-let's redefine some functions...
+Let's redefine some functions...
 
 ```sml
 fun sum l = foldl op+ 0 l;
@@ -465,7 +500,7 @@ fun xs @ ys = foldr op:: ys xs;
 
 ---
 
-### `exists` and `all`
+## `exists` and `all`
 
 <!--vert-->
 
@@ -477,14 +512,14 @@ fun exists p []      = false
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-checks if the predicate `p` is satisfied by at least one element of the list
+Checks if the predicate `p` is satisfied by at least one element of the list
 
 ```sml
 exists (fn x => x < 0) [1, 2, ~3, 4];
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-bound as `List.exists`
+Bound as `List.exists`
 
 <!--vert-->
 
@@ -496,16 +531,19 @@ fun all p []      = true
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-checks if the predicate `p` is satisfied by **all** elements of the list
+Checks if the predicate `p` is satisfied by **all** elements of the list
 
 ```sml
 all (fn x => x >= 0) [1, 2, ~3, 4];
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-bound as `List.all`
+Bound as `List.all`
 
 <!--vert-->
+
+### `all` example
+
 
 ```sml
 fun disjoint (xs, ys) =
@@ -517,15 +555,16 @@ fun disjoint (xs, ys) =
 
 ### equality in polymorphic functions
 
-equality is polymorphic in a restricted sense
+Equality is polymorphic in a restricted sense
 
-* defined for values constructed of integers, strings, booleans, chars, tuples, lists and datatypes
-* not defined for values containing
-  * functions: equality is undecidable (halting problem)
-  * reals, because e.g. nan != nan
-  * elements of abstract types
+* Defined for values constructed of integers, strings, booleans, chars, tuples, lists and datatypes
+* Not defined for values containing
+  * Functions: equality is undecidable (halting problem)
+  * Reals, because e.g. nan != nan
+  * Elements of abstract types
 
 <!--vert-->
+### equality types
 
 ML has a polymorphic equality type `''a`
 
@@ -534,7 +573,7 @@ op=;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-somewhat like an interface/trait in other languages
+Somewhat like an interface/trait in other languages
 
 ---
 
@@ -544,7 +583,7 @@ somewhat like an interface/trait in other languages
 
 #### exercise 1
 
-implement `map` using `foldl`
+Implement `map` using `foldl`
 
 ```sml
 val foldl = fn : ('a * 'b -> 'b) -> 'b -> 'a list -> 'b;
@@ -607,7 +646,9 @@ fun f o g = fn x => f (g x);
 
 <!--vert-->
 
-what will be printed?
+#### exercise 3a
+
+What will be printed?
 
 ```sml
 val a = map (upto 2) (upto 2 5);
@@ -616,7 +657,8 @@ val a = map (upto 2) (upto 2 5);
 
 <!--vert-->
 
-what will be printed?
+#### exercise 3b
+What will be printed?
 
 ```sml
 map
@@ -632,7 +674,8 @@ map
 
 <!--vert-->
 
-what will be printed?
+#### exercise 3c
+What will be printed?
 
 ```sml
 map
@@ -646,7 +689,7 @@ map
 
 #### exercise 4
 
-implement a tail recursive `append`
+Implement a tail recursive `append`
 
 **reminder**:
 
@@ -657,6 +700,8 @@ fun []      @ ys = ys
 ```
 
 <!--vert-->
+
+#### exercise 4
 
 ```sml
 fun append ...
@@ -676,7 +721,7 @@ fun append (xs, ys) = aux (aux (xs, []), ys);
 
 #### exercise 5
 
-implement `flatten` using `foldr`
+Implement `flatten` using `foldr`
 
 ```sml
 flatten : 'a list list -> 'a list;

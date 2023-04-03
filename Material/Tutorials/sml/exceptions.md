@@ -4,10 +4,10 @@
 
 ---
 
-### exceptions - why?
+### exceptions - motivation
 
-* an extensive part of code is error handling
-* a function can return an answer, or fail to find one, or signal that a solution does not exists
+* An extensive part of code is error handling
+* A function may return an answer, fail to find one or signal that a solution does not exists
 
 <!--vert-->
 
@@ -26,21 +26,23 @@ case methodA(problem) of
 ;
 ```
 
-it can be tedious and requires explicit handling
+Without exceptions, error handling can be tedious and requires explicit handling.
 
-sometimes we don't really know what to do with the error, so we'll simply return it
+Sometimes we don't really know what to do with the error, so we'll simply return it
 
 ---
 
-### exceptions
+### exceptions usage - key concepts
 
-* when an error is discovered we will **raise** an exception
-* the exception will propagate up until someone **handles** it
-* the caller of a function doesn't have to check any error values
+* When an error is discovered we will **raise** an exception
+* The exception will propagate up until someone **handles** it
+> The caller of a function doesn't have to check any error values
 
 <!--vert-->
 
-in pseudo code:
+### exceptions usage
+
+In pseudo code:
 
 ```sml
 fun inner = do_calculation
@@ -56,7 +58,7 @@ fun outer = middle(…) handle global_error;
 
 ### the exception type `exn`
 
-* we can **raise** only a specific type: `exn`
+* In SML we can **raise** only values of specific type: `exn`
 * `exn` is a special datatype with an **extendable** set of constructors and values
 
 ```sml
@@ -70,7 +72,9 @@ Problem;
 
 <!--vert-->
 
-values of type `exn` have all the privileges of other values
+### the exception type `exn`
+
+Values of type `exn` have all the privileges of other values ...
 
 ```sml
 val p = Problem 1;
@@ -81,6 +85,7 @@ fun whats_the_problem (Problem p) = p;
 
 <!--vert-->
 
+### the exception type `exn`
 ... except
 
 ```sml
@@ -91,20 +96,22 @@ x = x;
 
 ---
 
-### raising exceptions - semantics
+### raising exceptions
 
 ```sml
 raise Exp
 ```
 
-* the expression `Exp` of type `exn` evaluates to `e`
+* Assume the expression `Exp` evaluates to `e` (and is of type `exn`)
 * `raise Exp` evaluates to an <span style="color: red;">exception packet</span> containing `e`
-* packets are not ML values!
+> Important note - packets are not ML values!
 
 <!--vert-->
 
-* exception packets propagate under the call by value rule
-* all of the following evaluate to `raise Exp`
+### raising exceptions
+
+
+All of the following "evaluate" to `raise Exp`
 
 ```sml
 f (raise Exp)
@@ -113,7 +120,7 @@ f (raise Exp)
 
 raise (Exp1 (raise Exp)) (* Exp1 is a constructor *)
 
-(raise Exp, raise Exp1)  (* or {a=Exp, b=Exp1} *)
+(raise Exp, raise Exp2)  (* or {a=raise Exp, b=raise Exp2} *)
 
 let val name = raise Exp in some_expression end
 
@@ -146,8 +153,8 @@ Exp_0 handle
   | Pn => Exp_n
 ```
 
-* all `Exp_i`s must be type-compatible
-* all `Pi`s must be valid patterns for the type `exn`
+* All `Exp_i`s must be type-compatible
+* All `Pi`s must be valid patterns for the type `exn`
 
 ```sml
 fun len l = 1 + len (tl l) handle Empty => 0;
@@ -162,19 +169,21 @@ fun len l = 1 + len (tl l) handle Empty => 0;
 Exp_0 handle Cons1 x => Exp_1
 ```
 
-* assume `Exp_0` evaluates to some value `V` then the value of this expressions is
-  * `Exp_1` if `Exp_0` evaluates to `raise Cons1 x`
-  * `V` otherwise (`V` may be either a normal value or a non-matching raised exception)
-* `handle` is short-circuiting
-* exactly equivalent to familiar notions from C++
+* Assume `Exp_0` evaluates to some `V` (which is either a value or an exception packet), then the expression evaluates to:
+  * `Exp_1` - in case `V` is `raise Cons1 x`
+  * `V` - otherwise (`V` may be either a normal value or a non-matching raised exception)
+
+> `handle` is short-circuiting
+
+> Exactly equivalent to familiar notions from C++
 
 ---
 
 ### the type of `raise Exp`
 
-* the expression `raise Exp` is of type `'a`
-* it is **not** an expression of type `exn`
-* it simply puts no restrictions on other parts of the expression
+* The expression `raise Exp` is of type `'a`
+* It is **not** an expression of type `exn`
+* This is necessary to avoid restricting the other parts of the expression.
 
 ```sml
 fun throw _ = raise Empty;
