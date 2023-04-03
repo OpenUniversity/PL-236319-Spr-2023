@@ -1,15 +1,14 @@
-<html>
-  <h1>PL-236319-Spr-2023</a>
-	<h2><a href="README.md">README.md</a>
-	<h2><a href="r.html">r.html</a>
-	<h2><a href="README.html">README.html</a>
-	<h2><a href="Material/Tutorials/sml/introduction.html">Material/Tutorials/sml/introduction.html</a>
-	<h2><a href="docs/Material/Tutorials/sml/introduction.html">docs/Material/Tutorials/sml/introduction.html</a>
-	<h2><a href="./Material/Tutorials/sml/introduction.html">docs/Material/Tutorials/sml/introduction.md</a>
-	<h2><a href="../Material/Tutorials/sml/introduction.html">docs/Material/Tutorials/sml/introduction.md</a>
-	<h2><a href="./Material/Tutorials/sml/introduction.html">docs/Material/Tutorials/sml/introduction.html</a>
-	<h2><a href="../Material/Tutorials/sml/introduction.html">docs/Material/Tutorials/sml/introduction.html</a>
-</html>
+# PL-236319-Spr-2023
+	* [1](README.md)
+	* [1](../README.md)
+	* [1](r.html)
+	* [1](README.html)
+	* [1](Material/Tutorials/sml/introduction.html)
+	* [1](docs/Material/Tutorials/sml/introduction.html)
+	* [1](docs/Material/Tutorials/sml/introduction.md)
+	* [1](docs/Material/Tutorials/sml/introduction.md)
+	* [1](docs/Material/Tutorials/sml/introduction.html)
+	* [1](docs/Material/Tutorials/sml/introduction.html)
 
 ## SML
 * [Introduction](../Material/Tutorials/sml/introduction.md)
