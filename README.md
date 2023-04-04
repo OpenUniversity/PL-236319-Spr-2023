@@ -1,4 +1,4 @@
-# Programming Languages Course?
+# Programming Languages Course
 
 ## [SML](./Material/Tutorials/sml/)
 
@@ -13,7 +13,7 @@
 ## [Theory](./Material/Tutorials/theory/)
 
 ## Docker
-* [docker](./docker/)
+* [install](./docker/)
 * [jupyter kernel](./reveal.js/)
 * [fpc](./docker/fpc/)
 

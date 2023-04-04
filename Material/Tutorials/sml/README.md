@@ -1,4 +1,4 @@
-## SML?
+### SML
 
 * [1. introduction](introduction.md)
 * [2. errors](errors.md)
