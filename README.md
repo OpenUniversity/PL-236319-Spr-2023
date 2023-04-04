@@ -2,14 +2,14 @@
 
 ## [SML](./Material/Tutorials/sml/)
 ## [Pascal](./Material/Tutorials/pascal/)
+* [fpc](./docker/fpc/)
 ## [Misc](./Material/Tutorials/misc/)
 ## [Prolog](./Material/Tutorials/prolog/)
 ## [Python](./Material/Tutorials/python/)
 ## [Theory](./Material/Tutorials/theory/)
-
-* [fpc](./docker/fpc/)
-* [hw2](./docker/hw2/)
-* [hw5](./docker/hw5/)
+## Docker
 * [docker](./docker/)
-* [exams](./Material/exams.md)
-* [reveal](./reveal.js/)
+* [jupyter kernel](./reveal.js/)
+* [Spr 2022, hw2](./docker/hw2/)
+* [Spr 2022, hw5](./docker/hw5/)
+## [exams](./Material/exams.md)
