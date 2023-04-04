@@ -3,7 +3,6 @@
 ## [SML](./Material/Tutorials/sml/)
 
 ## [Pascal](./Material/Tutorials/pascal/)
-* [fpc](./docker/fpc/)
 
 ## [Misc](./Material/Tutorials/misc/)
 
@@ -16,6 +15,7 @@
 ## Docker
 * [docker](./docker/)
 * [jupyter kernel](./reveal.js/)
+* [fpc](./docker/fpc/)
 * [Spr 2022, hw2](./docker/hw2/)
 * [Spr 2022, hw5](./docker/hw5/)
 
