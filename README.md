@@ -1,8 +1,8 @@
 # Programming Languages Course
 
-## SML
-## [SML Index](./Material/Tutorials/sml/)
-* [SML Index](./Material/Tutorials/sml/)
+## [SML](./Material/Tutorials/sml/)
 
+
+## Link
 * [Introduction](./Material/Tutorials/sml/introduction.md)
  
