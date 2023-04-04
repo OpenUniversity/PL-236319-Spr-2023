@@ -2,6 +2,7 @@
 
 ## [SML](./Material/Tutorials/sml/)
 ## [Pascal](./Material/Tutorials/pascal/)
-
-
-* [Introduction](./Material/Tutorials/sml/introduction.md)
+## [Misc](./Material/Tutorials/misc/)
+## [Prolog](./Material/Tutorials/prolog/)
+## [Python](./Material/Tutorials/python/)
+## [Theory](./Material/Tutorials/theory/)
