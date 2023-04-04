@@ -103,7 +103,7 @@ fun f (a:{s: int, r: int}) = {s: (#s a), r: (#r a)};
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-NOTE: `:` denotes type, we need to use `=` in the returned expression to denote a value. another common error: ???
+NOTE: `:` denotes type, we need to use `=` in the returned expression to denote a value. another common error:
 
 <!--vert-->
 
