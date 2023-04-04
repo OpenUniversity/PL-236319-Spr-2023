@@ -2,7 +2,7 @@ title: PL
 description: 236319 Spring 2023, Prof. Lorenz
 show_downloads: false
 google_analytics:
-
+theme: jekyll-theme-tactile
 plugins:
   - jekyll-relative-links
 relative_links:
@@ -10,6 +10,4 @@ relative_links:
   collections: true
 include:
   - README.md
-
-notheme: jekyll-theme-tactile
-theme: jekyll-theme-cayman
+notheme: jekyll-theme-cayman
