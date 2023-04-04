@@ -11,6 +11,5 @@ relative_links:
   collections: true
 include:
   - README.md
-  - NEW.md
 
 theme: jekyll-theme-tactile
