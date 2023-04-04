@@ -4,6 +4,4 @@
 ## [Pascal](./Material/Tutorials/pascal/)
 
 
-## Link
 * [Introduction](./Material/Tutorials/sml/introduction.md)
- 
