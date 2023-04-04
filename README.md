@@ -16,7 +16,5 @@
 * [docker](./docker/)
 * [jupyter kernel](./reveal.js/)
 * [fpc](./docker/fpc/)
-* [Spr 2022, hw2](./docker/hw2/)
-* [Spr 2022, hw5](./docker/hw5/)
 
 ## [Past Exams](./Material/exams.md)
