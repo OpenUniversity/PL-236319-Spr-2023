@@ -1,3 +1,9 @@
+title: 236319
+description: PL
+show_downloads: true
+google_analytics:
+theme: jekyll-theme-cayman
+
 plugins:
   - jekyll-relative-links
 relative_links:
@@ -6,4 +12,5 @@ relative_links:
 include:
   - README.md
   - NEW.md
+
 theme: jekyll-theme-tactile
