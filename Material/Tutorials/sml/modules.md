@@ -4,7 +4,9 @@
 
 ---
 
-a structure is a collection of bindings
+### structures
+
+A structure is a collection of bindings
 
 ```sml
 structure MyModule = struct
@@ -12,9 +14,15 @@ structure MyModule = struct
 end
 ```
 
+These are our modules in SML, or better considered as module implementations.
+
+> Somewhat like a namespace in c++;
+
 <!--vert-->
 
-a module can contain any kind of binding
+### structures
+
+A module may contain any kind of binding:
 
 ```sml
 structure MyModule = struct
@@ -28,7 +36,9 @@ end;
 
 <!--vert-->
 
-outside a module refer to a binding from another module by:
+### modules usage
+
+Outside a module, we may refer to a binding like so:
 
 ```sml
 MyModule.answer;
@@ -37,20 +47,22 @@ MyModule.answer;
 
 <!--vert-->
 
+### modules usage
+
 ```sml
 open MyModule;
 answer;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-* used to get direct access to the bindings of a module
-* considered bad style
+* Used to get direct access to the bindings of a module (kind of like `using namespace` in C++)
+* Considered bad style
 
 ---
 
 ### signatures
 
-a signature is a type for a module
+A signature includes the types of the bindings in a module
 
 ```sml
 signature SIGNAME = sig
@@ -62,7 +74,11 @@ structure ModuleName :> SIGNAME = struct
 end
 ```
 
+> Somewhat like a header file in C++
+
 <!--vert-->
+
+### signatures
 
 ```sml
 signature MATHLIB = sig
@@ -79,7 +95,9 @@ end;
 
 <!--vert-->
 
-a module will not type-check unless it matches the signature
+### signatures
+
+When a structure is matched to a signature, the compiler checks that it satisfies the signature requirements:
 
 ```sml
 signature CONSTANTS = sig
@@ -89,16 +107,12 @@ end;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-<!--vert-->
-
 ```sml
 structure MathConstants :> CONSTANTS = struct
     val pi = 3.14
 end; (*ERROR*)
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
-
-<!--vert-->
 
 ```sml
 structure MathConstants :> CONSTANTS = struct
@@ -116,16 +130,26 @@ end; (*ERROR*)
 structure Foo :> BAR
 ```
 
-* every type in `BAR` is provided in `Foo` as specified
-* every val binding in `BAR` is provided in `Foo`
-* every exception in `BAR` is provided in `Foo`
-* `Foo` can have more bindings than specified by `BAR`
+The compiler checks that:
+* Every type in `BAR` is provided in `Foo` as specified
+* Every val binding in `BAR` is provided in `Foo`
+* Every exception in `BAR` is provided in `Foo`
 
+
+<!--vert-->
+
+### signature matching
+
+```sml
+structure Foo :> BAR
+```
+
+`Foo` may have more bindings than specified by `BAR`, however they are not accessible from outside the module
 ---
 
 ### functors
 
-a functor is a parameterized module
+A functor is a parameterized module
 
 ```sml
 functor Functor (Module: SIG) =
@@ -133,16 +157,23 @@ functor Functor (Module: SIG) =
     (*bindings*)
   end;
 ```
+> Somewhat like a template in C++
 
 <!--vert-->
 
-applying a functor
+### functors
+
+Applying a functor to a module creates a new module:
 
 ```sml
 structure FModule = Functor(Module);
 ```
 
+> Somewhat like a template instantiation in C++
+
 <!--vert-->
+
+### functors - exapmle
 
 ```sml
 signature ORDERED_TYPE = sig
@@ -159,6 +190,8 @@ end;
 
 <!--vert-->
 
+### functors - example
+
 ```sml
 functor SortedList (Elt: ORDERED_TYPE) = struct
   fun add x [] = [x]
@@ -173,6 +206,8 @@ end;
 
 <!--vert-->
 
+### functors - example
+
 ```sml
 structure SortedIntList = SortedList(Int');
 
@@ -182,6 +217,8 @@ add 5 (add 6 (add 2 (add 4 (add 3 (add 1 [])))));
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+
+### functors - example
 
 ```sml
 structure SortedStringList = SortedList(struct

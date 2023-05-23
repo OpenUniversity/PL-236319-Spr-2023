@@ -1,0 +1,10 @@
+val it = () : unit
+exec: 1
+val it = () : unit
+exec: 2
+val it = () : unit
+val it = () : unit
+val it = () : unit
+exec: 3
+val it = () : unit
+- 

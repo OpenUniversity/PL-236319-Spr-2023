@@ -256,7 +256,7 @@ Conventional precedence (parenthesis can be dropped without change of meaning)
 
 <!--vert-->
 
-### real infix operators
+Infix operators: `+` `-` `*` `/`
 
 `+` `-` `*` `/`
 
@@ -470,6 +470,7 @@ fun sq (x: int) = x*x;
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 * `fun` keyword starts the function declaration
+>>>>>>> refs/rewritten/merge
 * `sq` is the function name
 * `x:int` is the formal parameter with type constraint
 * `x*x` is the body and it is an **expression**

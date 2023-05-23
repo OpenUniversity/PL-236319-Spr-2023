@@ -6,29 +6,31 @@
 
 ### lazy lists
 
-* elements are not evaluated until their values are required
-* **may** be infinite
-* example: a sequence of all even integers `$0, 2, -2, 4, \ldots$`
+* Elements are not evaluated until their values are required
+* **May** be infinite
+* Example: a sequence of all even integers `$0, 2, -2, 4, \ldots$`
 
 <!--vert-->
 
 ### lazy lists in ML
 
+ML evaluates `E` in `Cons(x,E)`, so to obtain laziness we must write `Cons(x, fn()=>E)`
+
 ```sml
 datatype 'a seq = Nil
     | Cons of 'a * (unit -> 'a seq);
 
-fun head (Cons (x, _)) = x;
-
-fun tail (Cons (_, xf)) = xf();
+fun take s 0 = []
+  | take Nil _ = []
+  | take (Cons (x, xf)) n = x :: take (xf()) (n-1);
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-ML evaluates `E` in `Cons(x,E)`, so to obtain laziness we must write `Cons(x, fn()=>E)`
-
----
+<!--vert-->
 
 ### examples of sequences
+
+`$1, 2, 3, 4, \ldots$`
 
 ```sml
 fun from k = Cons (k, fn() => from (k+1));
@@ -38,38 +40,57 @@ from 1;
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 ```sml
-tail it;
+take it 10;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+
+### examples of sequences
+
+`$0, 2, -2, 4, \ldots$`
+
+```sml
+fun from_even n = let
+    val next = if n > 0 then ~n else ~n+2
+  in
+    Cons (n, fn() => from_even next)
+  end;
+
+from_even 0;
+```
+
+<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
+```sml
+take it 10;
+```
+
+<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
+
+---
+
+### Processing sequences
+
+`squares` takes a sequence of integers and returns a sequence of their squares:
 
 ```sml
 fun squares Nil = Nil
   | squares (Cons (x, xf)) =
         Cons (x*x, fn() => squares (xf()));
-```
-<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-```sml
 squares (from 1);
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 ```sml
-head (tail (tail (tail (tail it))));
+take it 10;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
-
----
-
-### elementary sequence processing
 
 <!--vert-->
 
 #### `addq`
-
-implement `addq` that takes two integer sequences and adds them element-wise
+Implement `addq` that takes two integer sequences and adds them element-wise
 
 ```sml
 ...
@@ -79,6 +100,7 @@ implement `addq` that takes two integer sequences and adds them element-wise
 
 <!--vert-->
 
+#### `addq`
 ```sml
 fun addq (Cons (x, xf), Cons (y, yf)) =
         Cons (x+y, fn() => addq (xf(), yf()))
@@ -86,11 +108,17 @@ fun addq (Cons (x, xf), Cons (y, yf)) =
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
+```sml
+addq (from 1, from 1);
+take it 10;
+```
+<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
+
 <!--vert-->
 
 #### `appendq`
 
-implement `appendq` that appends two sequences
+Implement `appendq` that appends two sequences
 
 ```sml
 ...
@@ -100,6 +128,7 @@ implement `appendq` that appends two sequences
 
 <!--vert-->
 
+#### `appendq`
 ```sml
 fun appendq (Nil, yq) = yq
   | appendq (Cons(x, xf), yq) =
@@ -107,13 +136,13 @@ fun appendq (Nil, yq) = yq
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-what would `appendq(xq,yq)` be if `xq` is infinite?
+What would `appendq(xq,yq)` be if `xq` is infinite?
 
 <!--vert-->
 
 #### `mapq`
 
-implement `mapq` that applies a function on the elements of a sequence
+Implement `mapq` that applies a function on the elements of a sequence
 
 ```sml
 ...
@@ -123,6 +152,7 @@ implement `mapq` that applies a function on the elements of a sequence
 
 <!--vert-->
 
+#### `mapq`
 ```sml
 fun mapq f Nil           = Nil
   | mapq f (Cons (x,xf)) =
@@ -130,11 +160,17 @@ fun mapq f Nil           = Nil
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
+```sml
+mapq (fn x => x*3) (from 1);
+take it 10;
+```
+<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
+
 <!--vert-->
 
 #### `filterq`
 
-implement `filterq` that filters a sequence based on a predicate
+Implement `filterq` that filters a sequence based on a predicate
 
 ```sml
 ...
@@ -144,6 +180,7 @@ implement `filterq` that filters a sequence based on a predicate
 
 <!--vert-->
 
+#### `filterq`
 ```sml
 fun filterq pred Nil = Nil
   | filterq pred (Cons (x,xf)) =
@@ -153,13 +190,19 @@ fun filterq pred Nil = Nil
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
+```sml
+filterq (fn x => x mod 2 <> 0) (from 1);
+take it 10;
+```
+<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
+
 <!--vert-->
 
 #### `interleaveq`
 
-implement `interleaveq` that interleaves two sequences
+Implement `interleaveq` that interleaves two sequences.
 
-e.g.: interleaving `1,2,3,...` and `11,12,13,...` returns: `1,11,2,12,3,13,4,...`
+e.g.: Interleaving `1,2,3,...` and `11,12,13,...` returns: `1,11,2,12,3,13,4,...`
 
 ```sml
 ...
@@ -169,6 +212,7 @@ e.g.: interleaving `1,2,3,...` and `11,12,13,...` returns: `1,11,2,12,3,13,4,...
 
 <!--vert-->
 
+#### `interleaveq`
 ```sml
 fun interleaveq (Nil, yq)       = yq
   | interleaveq (Cons(x,xf),yq) =
@@ -176,8 +220,15 @@ fun interleaveq (Nil, yq)       = yq
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
+```sml
+interleaveq (from 1, from 11);
+take it 10;
+```
+<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
+
 <!--vert-->
 
+#### `dropq`
 `dropq` takes a sequence `s` and a positive number `n` and returns `s` without its first `n` elements
 
 ```sml
@@ -188,6 +239,7 @@ fun interleaveq (Nil, yq)       = yq
 
 <!--vert-->
 
+#### `dropq`
 ```sml
 fun dropq seq 0 = seq
   | dropq Nil _ = Nil
@@ -195,8 +247,15 @@ fun dropq seq 0 = seq
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
+```sml
+dropq (from 1) 10;
+take it 10;
+```
+<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
+
 <!--vert-->
 
+#### `seqToList`
 `seqToList` takes a sequence and returns a list of its elements
 
 ```sml
@@ -207,6 +266,7 @@ fun dropq seq 0 = seq
 
 <!--vert-->
 
+#### `seqToList`
 ```sml
 fun seqToList Nil = []
   | seqToList (Cons(x, xf)) = x::(seqToList (xf()));
@@ -214,7 +274,7 @@ fun seqToList Nil = []
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
-
+#### `listToSeq`
 `listToSeq` takes a list and returns a sequence of its elements
 
 ```sml
@@ -225,15 +285,17 @@ fun seqToList Nil = []
 
 <!--vert-->
 
+#### `listToSeq`
 ```sml
 fun listToSeq [] = Nil
   | listToSeq (x::xs) = Cons (x, fn () => listToSeq xs);
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-<!--vert-->
+---
 
-![q1](../imgs/q1.png)
+### Exam Question
+![q1](../../imgs/q1.png)
 
 <!--vert-->
 
@@ -243,6 +305,7 @@ fun listToSeq [] = Nil
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+#### `fraction`
 
 ```sml
 fun fraction m n =
@@ -252,9 +315,17 @@ fun fraction m n =
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
+
+```sml
+fraction 1 7;
+take it 10;
+```
+<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
+
 <!--vert-->
 
-![q2](../imgs/q2.png)
+### Exam Question
+![q2](../../imgs/q2.png)
 
 <!--vert-->
 
@@ -265,49 +336,52 @@ fun fraction m n =
 
 <!--vert-->
 
+#### `lazy_divide`
+
 ```sml
 fun lazy_divide m n = (m div n, fraction (m mod n) n);
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 ---
+## Sequences exercise
+#### (a hard one in fact...)
+
+<!--vert-->
+
+Let's define a lazy tree datatype, using sequences:
 
 ```sml
 datatype 'a seq = Nil | Cons of 'a * (unit -> 'a seq)
+
 datatype 'a option = NONE | SOME of 'a;
+
 datatype 'a node =
   Node of 'a * (unit -> 'a node option) * (unit -> 'a node option);
+
 type 'a lazy_tree = unit -> 'a node option;
-```
-<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-<!--vert-->
-
-```sml
-fun take _ 0 = []
+fun take s 0 = []
   | take Nil _ = []
-  | take (Cons(x, xf)) n = x::(take (xf()) (n - 1));
+  | take (Cons (x, xf)) n = x :: take (xf()) (n-1);
 
-Control.Print.printLength := 1000;
-Control.Print.printDepth := 1000;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
 
-define some trees
+Let's define some trees:
 
 ```sml
 fun t1 () = NONE;
 fun t2 0 () = SOME (Node (0, t1, t1))
   | t2 n () = SOME (Node (n, t2 (n div 2), t2 (n - 1)));
-fun t3 () = SOME (Node (100, t2 8, t2 7));
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
 
-implement lazy bfs traversal of lazy trees
+Implement lazy bfs traversal of lazy trees
 
 ```sml
 ...
@@ -319,11 +393,17 @@ implement lazy bfs traversal of lazy trees
 ```sml
 local
   fun aux [] [] = Nil
-    | aux [] ts = aux (map (fn t => t ()) (List.rev ts)) []
+    | aux [] ts = aux (map (fn t => t ()) ts) []
     | aux (NONE::ns) ts = aux ns ts
-    | aux ((SOME (Node (h, l, r)))::ns) ts = Cons(h, fn () => aux ns (r::l::ts))
+    | aux ((SOME (Node (h, l, r)))::ns) ts = 
+    	Cons(h, fn () => aux ns (ts @ [l, r]))
 in
   fun bfs t = aux [t ()] []
 end;
+```
+<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
+
+```sml
+take (bfs (t2 10)) 10;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->

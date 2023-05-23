@@ -1,46 +1,47 @@
 # Standard ML
 
-## declarations
+## Declarations
 
 ---
 
 ### Reminder: Values and Types
 
-<!--vert-->
+What's a **value**?
 
-what's a **value**?
-
-* integers are values
-* a pair of an integer and real is a value
-* every function is a value
+* Integers are values
+* A pair of an integer and real is a value
+* Every function is a value
 
 <!--vert-->
 
-every value in ML has a **type**:
+### Reminder: Values and Types
 
-* some types are atomic
-* some types are builtin
-* some types may be both builtin and atomic
-* other types are compound (made from smaller types)
+Every value in ML has a **type**:
 
-remember: not everything in ML is a value, types are not values!
+* Some types are atomic
+* Some types are builtin
+* Some types may be both builtin and atomic
+* Other types are compound (made from smaller types)
+
+Remember: not everything in ML is a value, types are not values!
 
 <!--vert-->
 
-#### where do values come from? (1)
+### where do values come from?
 
-computation: during execution, the program generates more and more values
+During execution, the program generates more values by using **operators** for **computation**
 
-* example: the elements of the Fibonacci sequence
-* operators: create values
-  * `div` creates values of type int
-  * (12, 12.3) is a compound value
-  * `fn ? => ?` creates values which are functions
-  * `fun x(t) = ...` creates a value which is a fucntion and names it
-* a value constructor is always an operator
+* `div` creates values of type int
+* `fn ? => ?` creates values which are functions
+* `fun x(t) = ...` creates a value which is a fucntion and names it
 
-NOTE:
-a type constructor is not an operator, it takes types and creates a new type
+A value constructor is always an operator
+
+<!--vert-->
+
+### where do values come from?
+
+Important Note: a type constructor is not an operator, it takes types and creates a new type
 
 * `->`
 * `*`
@@ -48,31 +49,30 @@ a type constructor is not an operator, it takes types and creates a new type
 
 <!--vert-->
 
-#### where do values come from? (2)
+### where do values come from?
 
-initial values introduced by programmer:
+Values can also be introduced by the programmer:
 
-* atomic values: every literal is a value
-* composite values: expressions, function definitions
-
-<!--vert-->
-
-declarations:
-
-* making new values out of previous values and literals
-* providing names for this value
-* or making new types of previous types (builtin and user defined)
-* providing names for these new types
+* Atomic values: every literal is a value
+* Composite values: expressions, function definitions
 
 <!--vert-->
 
-REPL (reminder):
+### declarations
 
-* programmer types in a new value (expression, function definition)
-* ML Engine:  
-  * infers type of value: `int`, `int * real`, `'a -> int -> int`, ...
-  * computes value (if it is an expression)
-  * associates the name `it` with this value
+* Making new values out of previous values and literals
+* Providing names for this value
+* Making new types out of previous types (builtin and user defined)
+* Providing names for these new types
+
+<!--vert-->
+
+### REPL
+
+For every new value the programmer inserts, expression or declaration, the ML engine:
+* Infers type of that value: `int`, `int * real`, `'a -> int -> int`, ...
+* Computes the value (if it is an expression)
+* Associates the name `it` with this value
 
 ---
 
@@ -94,12 +94,12 @@ area 2.0;
 ### Identifiers in ML
 
 * `val` declaration binds a name to a value
-* names are not variables!
-* a name can not be used to change its value (actually a constant)
-* a name can be reused for another purpose
-  * by scoping rules
-  * by hiding a name in an outer scope
-  * by redefinitions to the REPL...
+* Names are not variables!
+* A name can not be used to change its value (actually a constant)
+* A name can be reused for another purpose
+  * By scoping rules
+  * By hiding a name in an outer scope
+  * By redefinitions to the REPL...
 
 ```sml
 val pi = "pi";
@@ -108,14 +108,16 @@ val pi = "pi";
 
 <!--vert-->
 
-if a name is declared again the new meaning is adopted afterwards
+### Identifiers in ML
+
+In case a name is declared again, the new meaning is adopted afterwards
 
 ```sml
 pi;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-but does not affect existing uses of the name
+However, this does not effect existing uses of the name
 
 ```sml
 area 1.0;
@@ -134,31 +136,32 @@ area 1.0;
 ⚠️ when modifying a program, be sure to recompile the entire file
 </div>
 
-NOTE: redefining indicates that internally, the SML engine is not an interpreter, it actually compiles and links, and does not amend this linking upone
-
 ---
 
-### `val` and `val rec`
+### val rec
 
-we can define a function using val
+We can define a function using val:
 
 ```sml
 val sq = fn x => x * x;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-what about recursive functions?
+What about recursive functions?
 
 ```sml
-fun f(n) = if n=0 then 1 else n * f(n-1);
-
-val f = fn (n) => if n=0 then 1 else n * ??;
+val f = fn (n) => if n=0 then 1 else n * f (n-1);
 ```
+<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
+
+<!--vert-->
+
+### val rec
+
+In order to do so, we may use `val rec`:
 
 ```sml
-val rec f = fn (n) =>
-    if n=0 then 1
-    else n * f(n-1);
+val rec f = fn (n) => if n=0 then 1 else n * f(n-1);
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
@@ -187,7 +190,7 @@ It is always a question when does a binding get into effect
 
 ### Pattern Matching
 
-patterns can be used to simplify function definitions
+Patterns can be used to simplify function definitions
 
 ```sml
 fun factorial 0 = 1
@@ -195,22 +198,24 @@ fun factorial 0 = 1
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-when the function is called, the first pattern to match the argument determines which expression on the right hand side will be evaluated
+When the function is called, the first pattern to match the argument determines which expression on the right hand side will be evaluated
 
 <!--vert-->
 
-* patterns can consist of
-  * constants - int, real, string, ...
-  * constructs - tuples, datatype constructors
-  * variables - all the rest
-  * underscore - a wildcard
-* matching is recursive
-* any variable in the pattern is bound to the corresponding value in X
-* there is no binding where the wildcard is used
+### Pattern Matching
+
+Patterns can consist of:
+  * Constants - int, real, string, ...
+  * Constructs - tuples, datatype constructors
+  * Variables - all the rest
+  * Underscore - a wildcard
+> Note: matching is recursive
 
 <!--vert-->
 
-what will be printed?
+### Pattern Matching
+
+What will be printed?
 
 ```sml
 fun foo (x,1) = x
@@ -256,16 +261,14 @@ case 7 of
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-* if `Pi` is the first to match then the result is `Ei`
-* no symbol terminates the case expression
-  * enclose in parentheses to eliminate ambiguity
+* If `Pi` is the first to match then the result is `Ei`
+* No symbol terminates the case expression - enclose in parentheses to eliminate ambiguity
 
 ---
 
 ### Type aliasing
 
-* you can give a new name to an existing type
-* the new name is only an alias
+You can give a new name to an existing type.
 
 ```sml
 type vec = real*real;
@@ -276,20 +279,18 @@ fun (x1,y1) ++ (x2,y2) : vec = (x1+x2,y1+y2);
 (3.6,0.9) ++ (0.1,0.2) ++ (20.0,30.0);
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
-
+> Note: the new name is only an alias
 ---
 
 ### Declarations inside an expression
 
+In case you want to limit a scope of a declaration, you may use a `let` expression:
 ```sml
 let D in E end
 ```
 
 ```sml
-fun gcd (n, m) = if m=0 then n else gcd(n mod m, m);
-
-fun fraction (n,d) =
-  (n div gcd(n,d), d div gcd(n,d));
+fun gcd (n, m) = if m=0 then n else gcd (n mod m, m);
 
 fun fraction(n,d)=
   let 
@@ -301,6 +302,8 @@ fun fraction(n,d)=
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+
+### Declarations inside an expression
 
 `D` may be a compound declaration
 
@@ -315,6 +318,8 @@ end;
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+
+### Declarations inside an expression
 
 `let` can be simulated using anonymous functions
 
@@ -347,7 +352,9 @@ fun sqroot a =
 
 <!--vert-->
 
-### `local`
+### Declarations inside a Declaration
+
+We may also use a `local` declaration:
 
 ```sml
 local D1 in D2 end
@@ -445,8 +452,8 @@ NOTE: the "body" of `local` may be empty
 val ID1 = E1 and ... and IDn = En
 ```
 
-* evaluates `E1`, ..., `En`
-* and only then declares the identifiers `ID1`, ..., `IDn`
+* Evaluates `E1`, ..., `En`
+* And only then declares the identifiers `ID1`, ..., `IDn`
 
 ```sml
 val x = 3;

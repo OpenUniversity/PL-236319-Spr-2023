@@ -1,0 +1,16 @@
+val it = () : unit
+val test1 = "PASSED" : string
+val game = fn : unit -> unit
+ *** 
+ * * 
+ *** 
+val it = () : unit
+ * * 
+*   *
+ * * 
+val it = () : unit
+     
+** **
+     
+val it = () : unit
+

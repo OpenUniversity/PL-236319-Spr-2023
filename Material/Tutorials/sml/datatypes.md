@@ -8,20 +8,19 @@
 
 `datatype` is a mechanism for defining **new** types
 
-* is **created** using the `datatype` keyword
-* **realizes** the theoretical type constructor of disjoint union
-* **generalizes**
-  * the `null` pointer of C, Pascal, Java
-  * enumerated types, as found in Pascal, C, and Java
-  * union types, as found in Pascal and C
-  * branding, as done by Pascal's TYPE, but difficult to achieve in Java and C
-* is **essential**: cannot do lists, trees, etc., without it
+* **Implements** the theoretical type constructor of disjoint union
+* **Generalizes**:
+  * The `NULL` pointer of C, Pascal, Java
+  * Enumerated types, as found in Pascal, C, and Java
+  * Union types, as found in Pascal and C
+  * Branding, as done by Pascal's TYPE, but difficult to achieve in Java and C
+* Is **essential**: cannot do lists, trees, etc., without it
 
-NOTE:
-
-don't confuse with with `type` which is a mechanism for giving new names to existing types
+> Not to be confused with `type`, which is a mechanism for giving new names to existing types
 
 <!--vert-->
+
+### datatype
 
 `datatype` is an SML type constructor:
 
@@ -32,11 +31,9 @@ don't confuse with with `type` which is a mechanism for giving new names to exis
 
 ### Concrete Datatypes
 
-`datatype` creates new types
+Types created using `datatype` are **concrete** - these can be constructed and taken apart
 
-* these datatypes are **concrete** (not abstract)
-* concrete datatypes can be inspected - constructed and taken apart
-* ML's datatypes have two kinds of values: **atomic** and **composite**
+ML's datatypes have two kinds of values: **atomic** and **composite**
 
 ---
 
@@ -53,6 +50,8 @@ only;
 
 <!--vert-->
 
+### Enumeration Types
+
 order doesn't matter
 
 ```sml
@@ -62,7 +61,9 @@ datatype bool' = true' | false';
 
 <!--vert-->
 
-allows pattern matching
+### Enumeration Types
+
+Datatypes allow pattern matching:
 
 ```sml
 datatype piece = king | queen | rook | bishop | knight | pawn;
@@ -81,33 +82,37 @@ value bishop;
 
 ### Type Branding
 
-Newton's second law
+If we use builtin types only, we may insert unwanted errors easily:
 
 ```sml
 fun a m f = f/m;
 
-val (body, engine) = (0.0122, 50.0);
+val (body_mass, engine_force) = (0.0122, 50.0);
 
-a engine body; (* oops *)
+a engine_force body_mass; (* oops *)
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
 
-type aliasing doesn't help
+### Type Branding
+
+Type aliasing doesn't help
 
 ```sml
 type mass = real and force = real and acceleration = real;
 
 fun a (m:mass) (f:force) : acceleration = f/m;
 
-a engine body; (* still oops *)
+a engine_force body_mass; (* still oops *)
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
 
-simulate branding using `datatype`
+### Type Branding
+
+Simulate branding using `datatype`:
 
 ```sml
 datatype mass = Kg of real;
@@ -129,14 +134,7 @@ a engine body; (*Error*)
 
 ### Constructors (of SML)
 
-the term *constructor* may be confusing
-
-* constructors of classes, as in C++
-* constructors of types, as in abstract type constructors
-
-<!--vert-->
-
-in SML constructors are functions
+In SML constructors are functions:
 
 ```sml
 datatype mass = Kg of real;
@@ -181,16 +179,14 @@ begin
 end
 ```
 
-type safety? none.
+Type safety? none.
 
-* same memory block is allocated to either (nothing) / (length) / (radius) / (width + height)
-* programmer's responsibility to make sure that only the correct fields are accessed
+* Same memory block is allocated to either (nothing) / (length) / (radius) / (width + height)
+* Its the rogrammer's responsibility to make sure that only the correct fields are accessed
 
 ---
 
 ## redoing variant records with datatype
-
-in SML - code is shorter
 
 ```sml
 datatype shape =
@@ -210,7 +206,9 @@ NOTE:
 
 <!--vert-->
 
-in SML - type safety
+### Pattern Matching
+
+In SML we also get type safety and pattern matching out of the box:
 
 ```sml
 fun area (point | Line _) = 0.0
@@ -225,26 +223,7 @@ pattern matching is a generalization of switch
 
 ---
 
-### Pattern Matching
-
-```sml
-val line = Line 5.3;
-```
-<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
-
-```sml
-val Line length = line;
-```
-<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
-
-```sml
-val Circle radius = line;
-```
-<!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
-
-<!--vert-->
-
-⚠️ constructors cannot be rebound by `val`
+⚠️ Constructors cannot be rebound by `val`
 
 ```sml
 val point = point; (*OK*)
@@ -256,7 +235,7 @@ val point = 5.3; (*Error*)
 
 ### Recursive Datatypes
 
-🛈 every `intlist` is either `NIL` or `head $$ tail`
+🛈 Every `intlist` is either `NIL` or `head $$ tail`
 
 ```sml
 datatype intlist =
@@ -274,7 +253,7 @@ fun length NIL     = 0
 
 ### Polymorphic Datatypes
 
-🛈 every `list` is either `nil` or `head::tail`
+🛈 Every `list` is either `nil` or `head::tail`
 
 ```sml
 datatype 'a list =
@@ -288,7 +267,9 @@ infixr ::;
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
-<!--vert-->
+---
+
+### Option Example
 
 ```sml
 datatype 'a option = NONE | SOME of 'a;
@@ -303,6 +284,8 @@ head (tl [1]);
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+
+### Union Example
 
 ```sml
 datatype ('a, 'b) union = type1 of 'a
@@ -346,14 +329,14 @@ size tree4;
 ---
 
 ### Binary Search Trees
-
-* implement an associative array using trees
-* the keys are `int`s
-* values may be anything
-* assumption: the tree is sorted
+Example: implementing an associative map using trees
+* Keys are `int`s
+* Values may be anything
+* Assumption: the tree is sorted
 
 <!--vert-->
 
+### Binary Search Trees
 ```sml
 val cmp = Int.compare;
 
@@ -367,8 +350,9 @@ fun get (Br ((node_k, v), left, right)) k =
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+### Binary Search Trees Excercise
 
-implement `insert` that takes a BST, a key `k` and a value `v` and returns an updated BST with the node `(k, v)`
+Implement `insert` that takes a BST, a key `k` and a value `v` and returns an updated BST with the node `(k, v)`
 
 ```sml
 val insert = fn : (int * 'a) tree -> int -> 'a -> (int * 'a) tree
@@ -376,12 +360,17 @@ val insert = fn : (int * 'a) tree -> int -> 'a -> (int * 'a) tree
 
 <!--vert-->
 
+### Binary Search Trees Excercise
+
 ```sml
 ...
 ```
 <!-- .element: data-thebe-executable-sml data-language="text/x-ocaml" -->
 
 <!--vert-->
+
+
+### Binary Search Trees Excercise
 
 ```sml
 fun insert Nil k v = Br ((k, v), Nil, Nil)
