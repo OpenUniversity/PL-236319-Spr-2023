@@ -5,6 +5,7 @@
 * [3. declarations](declarations.md)
 * [4. datatypes](datatypes.md)
 * [5. lists](lists.md)
+* [lists_solutions.md](lists_solutions.md)
 * [6. exceptions](exceptions.md)
 * [7. modules](modules.md)
 * [8. refs](refs.md)
